@@ -1077,7 +1077,7 @@ const addresses = [
 const seedDatabase = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect("mmongodb+srv://youssefehab1222:4XXZn0r9gEIZiTfI@sehaty.uffzgjj.mongodb.net/?retryWrites=true&w=majority&appName=sehaty");
+    await mongoose.connect("mongodb+srv://youssefehab1222:4XXZn0r9gEIZiTfI@sehaty.uffzgjj.mongodb.net/?retryWrites=true&w=majority&appName=sehaty");
     console.log('Connected to MongoDB');
 
     // Clear existing data
