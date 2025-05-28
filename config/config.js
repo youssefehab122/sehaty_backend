@@ -36,6 +36,6 @@ export const config = {
 
   // Database configuration
   database: {
-    uri: process.env.MONGODB_URI || "mongodb://localhost:27017/your_db_name",
+    uri: process.env.MONGODB_URI || "mongodb+srv://youssefehab1222:4XXZn0r9gEIZiTfI@sehaty.uffzgjj.mongodb.net/?retryWrites=true&w=majority&appName=sehaty",
   },
 };
