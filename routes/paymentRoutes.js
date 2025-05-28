@@ -6,6 +6,7 @@ import {
 
 const router = express.Router();
 
+router.get('/paymob/callback', handlePaymobCallback);
 router.post('/paymob/callback', handlePaymobCallback);
 
 export default router; 
