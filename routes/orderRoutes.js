@@ -7,7 +7,7 @@ import {
   updateOrderStatus,
   cancelOrder,
   registerPaymobWebhook,
-  handlePaymobCallback
+  // handlePaymobCallback
 } from '../controllers/orderController.js';
 
 const router = express.Router();
@@ -31,6 +31,6 @@ router.patch('/:id/status', updateOrderStatus);
 router.delete('/:id', cancelOrder);
 
 router.post('/paymob/webhook/register', registerPaymobWebhook);
-router.post('/paymob/callback', handlePaymobCallback);
+// router.post('/paymob/callback', handlePaymobCallback);
 
 export default router; 
