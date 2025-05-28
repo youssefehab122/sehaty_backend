@@ -162,35 +162,30 @@ export const createOrder = async (req, res) => {
         };
 
         const amountCents = Math.round(total * 100);
+        const returnUrl = `${config.app.deepLinkScheme}://payment-complete/${order._id}`;
         const { paymentUrl, paymobOrderId } = await PaymobService.getPaymentUrl(
           order._id,
           amountCents,
           billingData,
-          "sehaty://payment-complete/" + order._id // Add this as the return URL
+          returnUrl
         );
 
         // Update order with Paymob details
-        // order.paymob = {
-        //   iframeId: PaymobService.iframeId,
-        //   orderId: paymobOrderId,
-        //   paymentStatus: "pending",
-        // };
-            // Update order with Paymob details
-    order.paymob = {
-      iframeId: PaymobService.iframeId,
-      orderId: paymobOrderId,
-      paymentStatus: "pending",
-      callbackUrl: `${config.server.baseUrl}/api/orders/paymob/callback`
-    };
-    
+        order.paymob = {
+          iframeId: PaymobService.iframeId,
+          orderId: paymobOrderId,
+          paymentStatus: "pending",
+          callbackUrl: `${config.server.baseUrl}/api/payment/paymob/callback`,
+          returnUrl: returnUrl
+        };
+        
         await order.save();
 
         return res.status(201).json({
           ...order.toObject(),
-          paymentUrl, // Send the payment URL to the mobile app
+          paymentUrl,
           requiresPayment: true,
-                deepLink: `${config.app.deepLinkScheme}://payment-complete/${order._id}`
-
+          deepLink: returnUrl
         });
       } catch (paymobError) {
         console.error("Paymob error:", paymobError);

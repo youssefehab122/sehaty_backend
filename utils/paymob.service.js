@@ -51,12 +51,13 @@ class PaymobService {
       throw error;
     }
   }
-  async getPaymentUrl(orderId, amountCents, billingData) {
+  async getPaymentUrl(orderId, amountCents, billingData, returnUrl) {
     try {
       const { paymentKey, paymobOrderId } = await this.getPaymentKey(
         orderId,
         amountCents,
-        billingData
+        billingData,
+        returnUrl
       );
 
       return {
@@ -100,7 +101,7 @@ class PaymobService {
     }
   }
 
-  async getPaymentKey(orderId, amountCents, billingData) {
+  async getPaymentKey(orderId, amountCents, billingData, returnUrl) {
     try {
       const token = await this.authenticate();
       const { id: paymobOrderId } = await this.createOrder(orderId, amountCents);
@@ -113,6 +114,7 @@ class PaymobService {
         billing_data: billingData,
         currency: "EGP",
         integration_id: this.integrationId,
+        return_url: returnUrl
       });
 
       return {
