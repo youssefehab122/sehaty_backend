@@ -156,32 +156,61 @@ class PaymobService {
 
   validateHMAC(hmac, obj) {
     try {
-      // Remove hmac from the object to calculate signature
-      const { hmac: _, ...dataToSign } = obj;
-      
-      // Sort keys alphabetically
-      const entries = Object.entries(dataToSign)
-        .filter(([k]) => !["created_at", "is_3d_secure"].includes(k))
+      // For redirection callback, we need to handle the data differently
+      const entries = Object.entries(obj)
+        .filter(([k]) => k !== 'hmac') // Remove hmac from calculation
         .sort(([a], [b]) => a.localeCompare(b));
 
-      // Create concatenated string
-      const concatenated = entries.map(([k, v]) => `${k}=${v}`).join("");
-      
-      // Calculate HMAC
-      const calculatedHmac = crypto
-        .createHmac("sha512", this.hmacSecret)
-        .update(concatenated)
-        .digest("hex");
+      // Create concatenated string with key=value format
+      const concatenated = entries.map(([k, v]) => `${k}=${v}`).join('');
 
-      console.log("HMAC Validation:", {
+      // Calculate HMAC using SHA512
+      const calculatedHmac = crypto
+        .createHmac('sha512', this.hmacSecret)
+        .update(concatenated)
+        .digest('hex');
+
+      console.log('HMAC Validation:', {
         received: hmac,
         calculated: calculatedHmac,
-        data: concatenated
+        data: concatenated,
+        secret: this.hmacSecret
       });
 
       return hmac === calculatedHmac;
     } catch (error) {
-      console.error("HMAC validation error:", error);
+      console.error('HMAC validation error:', error);
+      return false;
+    }
+  }
+
+  // Add specific method for redirection callback
+  validateRedirectionHMAC(hmac, query) {
+    try {
+      // Convert query object to entries and sort alphabetically
+      const entries = Object.entries(query)
+        .filter(([k]) => k !== 'hmac') // Remove hmac from calculation
+        .sort(([a], [b]) => a.localeCompare(b));
+
+      // Create concatenated string
+      const concatenated = entries.map(([k, v]) => `${k}=${v}`).join('');
+
+      // Calculate HMAC
+      const calculatedHmac = crypto
+        .createHmac('sha512', this.hmacSecret)
+        .update(concatenated)
+        .digest('hex');
+
+      console.log('Redirection HMAC Validation:', {
+        received: hmac,
+        calculated: calculatedHmac,
+        data: concatenated,
+        secret: this.hmacSecret
+      });
+
+      return hmac === calculatedHmac;
+    } catch (error) {
+      console.error('Redirection HMAC validation error:', error);
       return false;
     }
   }

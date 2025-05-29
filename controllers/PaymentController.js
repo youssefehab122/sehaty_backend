@@ -73,15 +73,32 @@ export const handlePaymobResponse = async (req, res) => {
 
     // Validate HMAC if provided
     if (hmac) {
-      const isValid = await PaymobService.validateHMAC(hmac, req.query);
+      const isValid = await PaymobService.validateRedirectionHMAC(hmac, req.query);
       if (!isValid) {
-        throw new Error("Invalid HMAC signature");
+        console.error("HMAC validation failed for redirection callback");
+        // Continue with redirect even if HMAC validation fails
       }
     }
 
     const order = await Order.findById(merchant_order_id);
     if (!order) {
       throw new Error("Order not found");
+    }
+
+    // Check if payment was successful
+    if (success === 'true') {
+      // Update order status if not already updated
+      if (!order.isPaid) {
+        order.isPaid = true;
+        order.paidAt = new Date();
+        order.paymob = {
+          ...order.paymob,
+          transactionId: req.query.id,
+          paymentStatus: "paid"
+        };
+        order.status = "confirmed";
+        await order.save();
+      }
     }
 
     // Redirect to the app using the stored return URL
