@@ -106,6 +106,11 @@ class PaymobService {
       const token = await this.authenticate();
       const { id: paymobOrderId } = await this.createOrder(orderId, amountCents);
 
+      // Ensure returnUrl is properly formatted
+      const formattedReturnUrl = returnUrl.startsWith('http') 
+        ? returnUrl 
+        : `${config.server.baseUrl}/api/payment/paymob/callback`;
+
       const response = await axios.post(`${this.baseUrl}/acceptance/payment_keys`, {
         auth_token: token,
         amount_cents: amountCents.toString(),
@@ -114,7 +119,7 @@ class PaymobService {
         billing_data: billingData,
         currency: "EGP",
         integration_id: this.integrationId,
-        return_url: returnUrl
+        return_url: formattedReturnUrl
       });
 
       return {

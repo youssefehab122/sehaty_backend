@@ -6,6 +6,7 @@ import Delivery from "../models/DeliveryModel.js";
 import PromoCode from "../models/PromoCodeModel.js";
 import PaymobService from "../utils/paymob.service.js";
 import {config} from '../config/config.js';
+
 // Enhanced callback handler
 export const handlePaymobCallback = async (req, res) => {
   try {
@@ -49,11 +50,22 @@ export const handlePaymobCallback = async (req, res) => {
       );
       
       console.log(`Order ${order._id} payment completed successfully`);
+
+      // Redirect to the app using the stored return URL
+      if (order.paymob?.returnUrl) {
+        return res.redirect(order.paymob.returnUrl);
+      }
     }
     
-    res.status(200).send("Callback processed");
+    // If no return URL or payment failed, redirect to a fallback URL
+    res.redirect(`${config.app.deepLinkScheme}://payment-complete/${result.orderId}`);
   } catch (error) {
     console.error("Callback processing failed:", error);
-    res.status(400).send("Error processing callback");
+    // Even on error, try to redirect back to app
+    if (req.body?.merchant_order_id) {
+      res.redirect(`${config.app.deepLinkScheme}://payment-complete/${req.body.merchant_order_id}`);
+    } else {
+      res.status(400).send("Error processing callback");
+    }
   }
 };
