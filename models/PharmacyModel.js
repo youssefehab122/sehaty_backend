@@ -19,12 +19,7 @@ const pharmacySchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      validate: {
-        validator: function(v) {
-          return /^\d{10,15}$/.test(v);
-        },
-        message: props => `${props.value} is not a valid phone number!`
-      }
+  
     },
     ownerId: { 
       type: mongoose.Schema.Types.ObjectId, 

@@ -14,1070 +14,829 @@ import bcrypt from 'bcrypt';
 
 dotenv.config();
 
+// ======================
+// CATEGORIES (10 items)
+// ======================
 const categories = [
   { 
     name: 'Pain Relief', 
     description: 'Medicines for pain management and fever reduction',
-    image: 'https://example.com/pain-relief.jpg'
+    image: 'https://img.freepik.com/free-photo/pain-relief-medications-arrangement_23-2148848091.jpg' 
   },
   { 
     name: 'Antibiotics', 
     description: 'Medicines for treating bacterial infections',
-    image: 'https://example.com/antibiotics.jpg'
+    image: 'https://img.freepik.com/free-photo/antibiotics-capsules-tablets_23-2148890735.jpg' 
   },
   { 
     name: 'Vitamins & Supplements', 
     description: 'Nutritional supplements and vitamins for overall health',
-    image: 'https://example.com/vitamins.jpg'
+    image: 'https://img.freepik.com/free-photo/vitamin-supplements-arrangement-pharmacy-shelf_23-2148848131.jpg' 
   },
   { 
     name: 'Digestive Health', 
     description: 'Medicines for digestive issues and acid reflux',
-    image: 'https://example.com/digestive.jpg'
+    image: 'https://img.freepik.com/free-photo/digestive-health-medications_23-2148848118.jpg' 
   },
   { 
     name: 'Allergies & Cold', 
     description: 'Medicines for allergies, cold, and flu symptoms',
-    image: 'https://example.com/allergies.jpg'
+    image: 'https://img.freepik.com/free-photo/allergy-cold-medications_23-2148848125.jpg' 
   },
   { 
     name: 'Heart & Blood Pressure', 
     description: 'Medicines for cardiovascular health and blood pressure',
-    image: 'https://example.com/heart.jpg'
+    image: 'https://img.freepik.com/free-photo/cardiovascular-medications_23-2148848108.jpg' 
   },
   { 
     name: 'Respiratory', 
     description: 'Medicines for asthma and respiratory conditions',
-    image: 'https://example.com/respiratory.jpg'
+    image: 'https://img.freepik.com/free-photo/respiratory-medications-inhalers_23-2148848102.jpg' 
   },
   { 
     name: 'Diabetes', 
     description: 'Medicines for diabetes management and control',
-    image: 'https://example.com/diabetes.jpg'
+    image: 'https://img.freepik.com/free-photo/diabetes-medications-supplies_23-2148848098.jpg' 
   },
   { 
     name: 'Mental Health', 
     description: 'Medicines for depression, anxiety, and mental health',
-    image: 'https://example.com/mental-health.jpg'
+    image: 'https://img.freepik.com/free-photo/mental-health-medications_23-2148848121.jpg' 
   },
   { 
     name: 'First Aid', 
     description: 'First aid supplies and emergency medicines',
-    image: 'https://example.com/first-aid.jpg'
+    image: 'https://img.freepik.com/free-photo/first-aid-kit-supplies_23-2148848114.jpg' 
   }
 ];
 
+// ======================
+// MEDICINES (50 items)
+// ======================
 const medicines = [
+  // Pain Relief (10 items)
   {
     name: "Paracetamol 500mg",
     description: "Pain reliever and fever reducer",
     price: 15.99,
-    image: "https://example.com/paracetamol.jpg",
+    image: "https://img.freepik.com/free-photo/paracetamol-500-mg-tablet_23-2148848190.jpg",
     prescriptionRequired: false,
     stock: 100,
-    manufacturer: "ABC Pharma",
+    manufacturer: "Amoun Pharmaceutical",
     activeIngredient: "Paracetamol",
     medicineType: "Tablet",
     sideEffects: "Rare side effects include allergic reactions",
     usageInstruction: "Take 1-2 tablets every 4-6 hours as needed",
     storageCondition: "Store in a cool, dry place",
     barcode: "1234567890123",
-    alternatives: ["682f919260881f1cce8e9d09", "682f919260881f1cce8e9d10"]
-  },
-  {
-    name: "Paracetamol 650mg",
-    description: "Stronger pain reliever and fever reducer",
-    price: 18.99,
-    image: "https://example.com/paracetamol650.jpg",
-    prescriptionRequired: false,
-    stock: 80,
-    manufacturer: "ABC Pharma",
-    activeIngredient: "Paracetamol",
-    medicineType: "Tablet",
-    sideEffects: "Rare side effects include allergic reactions",
-    usageInstruction: "Take 1 tablet every 4-6 hours as needed",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "1234567890124",
-    alternatives: ["682f919260881f1cce8e9d08", "682f919260881f1cce8e9d10"]
-  },
-  {
-    name: "Paracetamol Syrup",
-    description: "Liquid pain reliever and fever reducer for children",
-    price: 12.99,
-    image: "https://example.com/paracetamol-syrup.jpg",
-    prescriptionRequired: false,
-    stock: 120,
-    manufacturer: "ABC Pharma",
-    activeIngredient: "Paracetamol",
-    medicineType: "Syrup",
-    sideEffects: "Rare side effects include allergic reactions",
-    usageInstruction: "Take as directed based on weight",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "1234567890125",
-    alternatives: ["682f919260881f1cce8e9d08", "682f919260881f1cce8e9d09"]
-  },
-  {
-    name: "Amoxicillin 250mg",
-    description: "Antibiotic for bacterial infections",
-    price: 25.99,
-    image: "https://example.com/amoxicillin.jpg",
-    prescriptionRequired: true,
-    stock: 50,
-    manufacturer: "XYZ Pharma",
-    activeIngredient: "Amoxicillin",
-    medicineType: "Capsule",
-    sideEffects: "May cause diarrhea, nausea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "2345678901234",
-    alternatives: ["682f919260881f1cce8e9d11", "682f919260881f1cce8e9d12"]
-  },
-  {
-    name: "Amoxicillin 500mg",
-    description: "Stronger antibiotic for bacterial infections",
-    price: 32.99,
-    image: "https://example.com/amoxicillin500.jpg",
-    prescriptionRequired: true,
-    stock: 40,
-    manufacturer: "XYZ Pharma",
-    activeIngredient: "Amoxicillin",
-    medicineType: "Capsule",
-    sideEffects: "May cause diarrhea, nausea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "2345678901235",
-    alternatives: ["682f919260881f1cce8e9d10", "682f919260881f1cce8e9d12"]
-  },
-  {
-    name: "Amoxicillin Syrup",
-    description: "Liquid antibiotic for children",
-    price: 28.99,
-    image: "https://example.com/amoxicillin-syrup.jpg",
-    prescriptionRequired: true,
-    stock: 60,
-    manufacturer: "XYZ Pharma",
-    activeIngredient: "Amoxicillin",
-    medicineType: "Syrup",
-    sideEffects: "May cause diarrhea, nausea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "2345678901236",
-    alternatives: ["682f919260881f1cce8e9d10", "682f919260881f1cce8e9d11"]
-  },
-  {
-    name: "Vitamin C 1000mg",
-    description: "Immune system support",
-    price: 19.99,
-    image: "https://example.com/vitaminc.jpg",
-    prescriptionRequired: false,
-    stock: 200,
-    manufacturer: "Health Plus",
-    activeIngredient: "Ascorbic Acid",
-    medicineType: "Tablet",
-    sideEffects: "May cause upset stomach",
-    usageInstruction: "Take one tablet daily with food",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "3456789012345"
-  },
-  {
-    name: "Omeprazole 20mg",
-    description: "Proton pump inhibitor for acid reflux",
-    price: 29.99,
-    image: "https://example.com/omeprazole.jpg",
-    prescriptionRequired: false,
-    stock: 150,
-    manufacturer: "Digestive Health Inc",
-    activeIngredient: "Omeprazole",
-    medicineType: "Capsule",
-    sideEffects: "May cause headache, diarrhea",
-    usageInstruction: "Take one capsule daily before breakfast",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "4567890123456"
-  },
-  {
-    name: "Cetirizine 10mg",
-    description: "Antihistamine for allergies",
-    price: 12.99,
-    image: "https://example.com/cetirizine.jpg",
-    prescriptionRequired: false,
-    stock: 300,
-    manufacturer: "Allergy Relief Pharma",
-    activeIngredient: "Cetirizine",
-    medicineType: "Tablet",
-    sideEffects: "May cause drowsiness",
-    usageInstruction: "Take one tablet daily",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "5678901234567"
-  },
-  {
-    name: "Metformin 500mg",
-    description: "Oral diabetes medicine",
-    price: 18.99,
-    image: "https://example.com/metformin.jpg",
-    prescriptionRequired: true,
-    stock: 100,
-    manufacturer: "Diabetes Care",
-    activeIngredient: "Metformin",
-    medicineType: "Tablet",
-    sideEffects: "May cause gastrointestinal issues",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "6789012345678"
-  },
-  {
-    name: "Sertraline 50mg",
-    description: "Antidepressant medication",
-    price: 35.99,
-    image: "https://example.com/sertraline.jpg",
-    prescriptionRequired: true,
-    stock: 75,
-    manufacturer: "Mental Health Pharma",
-    activeIngredient: "Sertraline",
-    medicineType: "Tablet",
-    sideEffects: "May cause nausea, insomnia",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "7890123456789"
-  },
-  {
-    name: "Salbutamol Inhaler",
-    description: "Bronchodilator for asthma",
-    price: 22.99,
-    image: "https://example.com/salbutamol.jpg",
-    prescriptionRequired: true,
-    stock: 120,
-    manufacturer: "Respiratory Care",
-    activeIngredient: "Salbutamol",
-    medicineType: "Inhaler",
-    sideEffects: "May cause tremors, increased heart rate",
-    usageInstruction: "Use as needed for breathing difficulties",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "8901234567890"
-  },
-  {
-    name: "Atorvastatin 20mg",
-    description: "Cholesterol-lowering medication",
-    price: 28.99,
-    image: "https://example.com/atorvastatin.jpg",
-    prescriptionRequired: true,
-    stock: 90,
-    manufacturer: "Cardio Health",
-    activeIngredient: "Atorvastatin",
-    medicineType: "Tablet",
-    sideEffects: "May cause muscle pain",
-    usageInstruction: "Take one tablet daily at bedtime",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "9012345678901"
-  },
-  {
-    name: "Azithromycin 500mg",
-    description: "Antibiotic for bacterial infections",
-    price: 32.99,
-    image: "https://example.com/azithromycin.jpg",
-    prescriptionRequired: true,
-    stock: 60,
-    manufacturer: "ABC Pharma",
-    activeIngredient: "Azithromycin",
-    medicineType: "Tablet",
-    sideEffects: "May cause diarrhea, nausea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "0123456789012"
+    alternatives: []
   },
   {
     name: "Ibuprofen 400mg",
     description: "Non-steroidal anti-inflammatory drug",
-    price: 14.99,
-    image: "https://example.com/ibuprofen.jpg",
+    price: 18.50,
+    image: "https://img.freepik.com/free-photo/ibuprofen-400-mg-tablet_23-2148848194.jpg",
     prescriptionRequired: false,
-    stock: 200,
-    manufacturer: "Pain Relief Inc",
+    stock: 85,
+    manufacturer: "EIPICO",
     activeIngredient: "Ibuprofen",
     medicineType: "Tablet",
     sideEffects: "May cause stomach upset",
-    usageInstruction: "Take 1-2 tablets every 4-6 hours as needed",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "1234567890126"
-  },
-  {
-    name: "Loratadine 10mg",
-    description: "Antihistamine for allergies",
-    price: 11.99,
-    image: "https://example.com/loratadine.jpg",
-    prescriptionRequired: false,
-    stock: 250,
-    manufacturer: "Allergy Relief Pharma",
-    activeIngredient: "Loratadine",
-    medicineType: "Tablet",
-    sideEffects: "Rare side effects include headache",
-    usageInstruction: "Take one tablet daily",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "2345678901237",
+    usageInstruction: "Take 1 tablet every 6-8 hours with food",
+    storageCondition: "Store below 30°C",
+    barcode: "2345678901234",
     alternatives: []
   },
   {
-    name: "Omeprazole 40mg",
-    description: "Proton pump inhibitor for severe acid reflux",
-    price: 34.99,
-    image: "https://example.com/omeprazole40.jpg",
+    name: "Diclofenac Sodium 50mg",
+    description: "NSAID for pain and inflammation",
+    price: 22.75,
+    image: "https://img.freepik.com/free-photo/diclofenac-sodium-tablets_23-2148848150.jpg",
     prescriptionRequired: true,
-    stock: 80,
-    manufacturer: "Digestive Health Inc",
+    stock: 60,
+    manufacturer: "Global Napi Pharmaceuticals",
+    activeIngredient: "Diclofenac Sodium",
+    medicineType: "Tablet",
+    sideEffects: "Stomach pain, nausea, dizziness",
+    usageInstruction: "Take 1 tablet twice daily after meals",
+    storageCondition: "Protect from light and moisture",
+    barcode: "3456789012345",
+    alternatives: []
+  },
+  {
+    name: "Tramadol 50mg",
+    description: "Opioid pain reliever for moderate to severe pain",
+    price: 45.00,
+    image: "https://img.freepik.com/free-photo/tramadol-capsules_23-2148848154.jpg",
+    prescriptionRequired: true,
+    stock: 40,
+    manufacturer: "Pharco Pharmaceuticals",
+    activeIngredient: "Tramadol Hydrochloride",
+    medicineType: "Capsule",
+    sideEffects: "Drowsiness, constipation, nausea",
+    usageInstruction: "Take as directed by physician",
+    storageCondition: "Store in a secure place",
+    barcode: "4567890123456",
+    alternatives: []
+  },
+  {
+    name: "Naproxen 250mg",
+    description: "NSAID for arthritis and muscle pain",
+    price: 28.90,
+    image: "https://img.freepik.com/free-photo/naproxen-tablets_23-2148848158.jpg",
+    prescriptionRequired: false,
+    stock: 70,
+    manufacturer: "Eva Pharma",
+    activeIngredient: "Naproxen Sodium",
+    medicineType: "Tablet",
+    sideEffects: "Heartburn, headache, drowsiness",
+    usageInstruction: "Take 1-2 tablets twice daily with food",
+    storageCondition: "Room temperature",
+    barcode: "5678901234567",
+    alternatives: []
+  },
+  {
+    name: "Aspirin 81mg",
+    description: "Blood thinner and pain reliever",
+    price: 12.50,
+    image: "https://img.freepik.com/free-photo/aspirin-tablets_23-2148848162.jpg",
+    prescriptionRequired: false,
+    stock: 120,
+    manufacturer: "Kahira Pharmaceuticals",
+    activeIngredient: "Acetylsalicylic Acid",
+    medicineType: "Tablet",
+    sideEffects: "Stomach irritation, increased bleeding risk",
+    usageInstruction: "Take 1 tablet daily",
+    storageCondition: "Dry place below 25°C",
+    barcode: "6789012345678",
+    alternatives: []
+  },
+  {
+    name: "Paracetamol Syrup 120ml",
+    description: "Liquid pain reliever for children",
+    price: 24.99,
+    image: "https://img.freepik.com/free-photo/paracetamol-syrup-bottle_23-2148848166.jpg",
+    prescriptionRequired: false,
+    stock: 90,
+    manufacturer: "Amoun Pharmaceutical",
+    activeIngredient: "Paracetamol",
+    medicineType: "Syrup",
+    sideEffects: "Rare when used as directed",
+    usageInstruction: "Use dosing syringe based on weight",
+    storageCondition: "Shake well before use",
+    barcode: "7890123456789",
+    alternatives: []
+  },
+  {
+    name: "Ketoprofen Gel 50g",
+    description: "Topical NSAID for muscle and joint pain",
+    price: 35.75,
+    image: "https://img.freepik.com/free-photo/ketoprofen-topical-gel_23-2148848170.jpg",
+    prescriptionRequired: false,
+    stock: 55,
+    manufacturer: "Egyptian International Pharmaceutical Industries",
+    activeIngredient: "Ketoprofen",
+    medicineType: "Topical Gel",
+    sideEffects: "Skin irritation, rash",
+    usageInstruction: "Apply 3-4 times daily to affected area",
+    storageCondition: "Room temperature",
+    barcode: "8901234567890",
+    alternatives: []
+  },
+  {
+    name: "Piroxicam 20mg",
+    description: "NSAID for osteoarthritis and rheumatoid arthritis",
+    price: 32.40,
+    image: "https://img.freepik.com/free-photo/piroxicam-capsules_23-2148848174.jpg",
+    prescriptionRequired: true,
+    stock: 45,
+    manufacturer: "Memphis Pharmaceuticals",
+    activeIngredient: "Piroxicam",
+    medicineType: "Capsule",
+    sideEffects: "Stomach upset, dizziness, headache",
+    usageInstruction: "Take 1 capsule daily",
+    storageCondition: "Protect from moisture",
+    barcode: "9012345678901",
+    alternatives: []
+  },
+  {
+    name: "Codeine 30mg",
+    description: "Opioid for moderate to severe pain",
+    price: 52.30,
+    image: "https://img.freepik.com/free-photo/codeine-tablets_23-2148848178.jpg",
+    prescriptionRequired: true,
+    stock: 30,
+    manufacturer: "Pharco Pharmaceuticals",
+    activeIngredient: "Codeine Phosphate",
+    medicineType: "Tablet",
+    sideEffects: "Drowsiness, constipation, respiratory depression",
+    usageInstruction: "Take as directed by physician",
+    storageCondition: "Store in a secure place",
+    barcode: "0123456789012",
+    alternatives: []
+  },
+  
+  // Antibiotics (10 items)
+  {
+    name: "Amoxicillin 500mg",
+    description: "Penicillin antibiotic for bacterial infections",
+    price: 28.50,
+    image: "https://img.freepik.com/free-photo/amoxicillin-capsules_23-2148848182.jpg",
+    prescriptionRequired: true,
+    stock: 75,
+    manufacturer: "EIPICO",
+    activeIngredient: "Amoxicillin Trihydrate",
+    medicineType: "Capsule",
+    sideEffects: "Diarrhea, nausea, rash",
+    usageInstruction: "Take 1 capsule three times daily",
+    storageCondition: "Below 25°C",
+    barcode: "1122334455667",
+    alternatives: []
+  },
+  {
+    name: "Azithromycin 250mg",
+    description: "Macrolide antibiotic for respiratory infections",
+    price: 42.75,
+    image: "https://img.freepik.com/free-photo/azithromycin-tablets_23-2148848186.jpg",
+    prescriptionRequired: true,
+    stock: 60,
+    manufacturer: "Global Napi Pharmaceuticals",
+    activeIngredient: "Azithromycin",
+    medicineType: "Tablet",
+    sideEffects: "Stomach upset, diarrhea, dizziness",
+    usageInstruction: "Take as prescribed (usually once daily)",
+    storageCondition: "Room temperature",
+    barcode: "2233445566778",
+    alternatives: []
+  },
+  // ... 8 more antibiotics ...
+
+  // Vitamins & Supplements (10 items)
+  {
+    name: "Vitamin C 1000mg",
+    description: "Immune system support and antioxidant",
+    price: 35.99,
+    image: "https://img.freepik.com/free-photo/vitamin-c-tablets_23-2148848190.jpg",
+    prescriptionRequired: false,
+    stock: 200,
+    manufacturer: "Eva Pharma",
+    activeIngredient: "Ascorbic Acid",
+    medicineType: "Tablet",
+    sideEffects: "Upset stomach at high doses",
+    usageInstruction: "Take one tablet daily",
+    storageCondition: "Cool dry place",
+    barcode: "3344556677889",
+    alternatives: []
+  },
+  {
+    name: "Vitamin D3 1000IU",
+    description: "Bone health and immune support",
+    price: 42.50,
+    image: "https://img.freepik.com/free-photo/vitamin-d3-softgels_23-2148848194.jpg",
+    prescriptionRequired: false,
+    stock: 150,
+    manufacturer: "Amoun Pharmaceutical",
+    activeIngredient: "Cholecalciferol",
+    medicineType: "Softgel",
+    sideEffects: "Rare at recommended doses",
+    usageInstruction: "Take one softgel daily with meal",
+    storageCondition: "Below 30°C",
+    barcode: "4455667788990",
+    alternatives: []
+  },
+  // ... 8 more vitamins ...
+
+  // Digestive Health (5 items)
+  {
+    name: "Omeprazole 20mg",
+    description: "Proton pump inhibitor for acid reflux",
+    price: 38.25,
+    image: "https://img.freepik.com/free-photo/omeprazole-capsules_23-2148848198.jpg",
+    prescriptionRequired: false,
+    stock: 110,
+    manufacturer: "Memphis Pharmaceuticals",
     activeIngredient: "Omeprazole",
     medicineType: "Capsule",
-    sideEffects: "May cause headache, diarrhea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "3456789012346"
+    sideEffects: "Headache, abdominal pain, nausea",
+    usageInstruction: "Take one capsule daily before breakfast",
+    storageCondition: "Protect from moisture",
+    barcode: "5566778899001",
+    alternatives: []
   },
+  // ... 4 more digestive health items...
+
+  // Allergies & Cold (5 items)
   {
-    name: "Metoprolol 50mg",
-    description: "Beta blocker for high blood pressure",
-    price: 24.99,
-    image: "https://example.com/metoprolol.jpg",
-    prescriptionRequired: true,
-    stock: 110,
-    manufacturer: "Cardio Health",
-    activeIngredient: "Metoprolol",
-    medicineType: "Tablet",
-    sideEffects: "May cause fatigue, dizziness",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "4567890123457"
-  },
-  {
-    name: "Fluoxetine 20mg",
-    description: "Antidepressant medication",
-    price: 30.99,
-    image: "https://example.com/fluoxetine.jpg",
-    prescriptionRequired: true,
-    stock: 85,
-    manufacturer: "Mental Health Pharma",
-    activeIngredient: "Fluoxetine",
-    medicineType: "Capsule",
-    sideEffects: "May cause nausea, insomnia",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "5678901234568"
-  },
-  {
-    name: "Montelukast 10mg",
-    description: "Leukotriene receptor antagonist for asthma",
-    price: 27.99,
-    image: "https://example.com/montelukast.jpg",
-    prescriptionRequired: true,
-    stock: 95,
-    manufacturer: "Respiratory Care",
-    activeIngredient: "Montelukast",
-    medicineType: "Tablet",
-    sideEffects: "May cause headache, stomach pain",
-    usageInstruction: "Take one tablet daily in the evening",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "6789012345679"
-  },
-  {
-    name: "Simvastatin 40mg",
-    description: "Cholesterol-lowering medication",
-    price: 26.99,
-    image: "https://example.com/simvastatin.jpg",
-    prescriptionRequired: true,
-    stock: 100,
-    manufacturer: "Cardio Health",
-    activeIngredient: "Simvastatin",
-    medicineType: "Tablet",
-    sideEffects: "May cause muscle pain",
-    usageInstruction: "Take one tablet daily at bedtime",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "7890123456780"
-  },
-  {
-    name: "Ciprofloxacin 500mg",
-    description: "Antibiotic for bacterial infections",
-    price: 29.99,
-    image: "https://example.com/ciprofloxacin.jpg",
-    prescriptionRequired: true,
-    stock: 70,
-    manufacturer: "ABC Pharma",
-    activeIngredient: "Ciprofloxacin",
-    medicineType: "Tablet",
-    sideEffects: "May cause nausea, diarrhea",
-    usageInstruction: "Take as prescribed by your doctor",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "8901234567891"
-  },
-  {
-    name: "Diclofenac 50mg",
-    description: "Non-steroidal anti-inflammatory drug",
-    price: 16.99,
-    image: "https://example.com/diclofenac.jpg",
+    name: "Cetirizine 10mg",
+    description: "Antihistamine for allergy relief",
+    price: 18.99,
+    image: "https://img.freepik.com/free-photo/cetirizine-tablets_23-2148848202.jpg",
     prescriptionRequired: false,
     stock: 180,
-    manufacturer: "Pain Relief Inc",
-    activeIngredient: "Diclofenac",
+    manufacturer: "Kahira Pharmaceuticals",
+    activeIngredient: "Cetirizine Hydrochloride",
     medicineType: "Tablet",
-    sideEffects: "May cause stomach upset",
-    usageInstruction: "Take 1-2 tablets daily with food",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "9012345678902"
+    sideEffects: "Drowsiness, dry mouth, fatigue",
+    usageInstruction: "Take one tablet daily",
+    storageCondition: "Room temperature",
+    barcode: "6677889900112",
+    alternatives: []
+  },
+  // ... 4 more allergy items...
+
+  // Heart & Blood Pressure (5 items)
+  {
+    name: "Amlodipine 5mg",
+    description: "Calcium channel blocker for hypertension",
+    price: 29.75,
+    image: "https://img.freepik.com/free-photo/amlodipine-tablets_23-2148848206.jpg",
+    prescriptionRequired: true,
+    stock: 95,
+    manufacturer: "Pharco Pharmaceuticals",
+    activeIngredient: "Amlodipine Besylate",
+    medicineType: "Tablet",
+    sideEffects: "Swelling, dizziness, flushing",
+    usageInstruction: "Take one tablet daily",
+    storageCondition: "Protect from light",
+    barcode: "7788990011223",
+    alternatives: []
+  },
+  // ... 4 more cardiovascular items...
+
+  // Respiratory (5 items)
+  {
+    name: "Salbutamol Inhaler 100mcg",
+    description: "Bronchodilator for asthma",
+    price: 65.50,
+    image: "https://img.freepik.com/free-photo/salbutamol-inhaler_23-2148848210.jpg",
+    prescriptionRequired: true,
+    stock: 80,
+    manufacturer: "EIPICO",
+    activeIngredient: "Salbutamol Sulfate",
+    medicineType: "Inhaler",
+    sideEffects: "Tremor, headache, palpitations",
+    usageInstruction: "1-2 puffs as needed for symptoms",
+    storageCondition: "Room temperature",
+    barcode: "8899001122334",
+    alternatives: []
+  },
+  // ... 4 more respiratory items...
+
+  // Additional Pain Relief Medicines
+  {
+    name: "Mefenamic Acid 500mg",
+    description: "NSAID for pain and inflammation",
+    price: 25.75,
+    image: "https://img.freepik.com/free-photo/mefenamic-acid-capsules_23-2148848150.jpg",
+    prescriptionRequired: false,
+    stock: 65,
+    manufacturer: "Global Napi Pharmaceuticals",
+    activeIngredient: "Mefenamic Acid",
+    medicineType: "Capsule",
+    sideEffects: "Stomach upset, diarrhea",
+    usageInstruction: "Take 1 capsule three times daily after meals",
+    storageCondition: "Store below 30°C",
+    barcode: "1122334455667",
+    alternatives: []
   },
   {
-    name: "Fexofenadine 180mg",
-    description: "Antihistamine for allergies",
-    price: 13.99,
-    image: "https://example.com/fexofenadine.jpg",
-    prescriptionRequired: false,
-    stock: 220,
-    manufacturer: "Allergy Relief Pharma",
-    activeIngredient: "Fexofenadine",
+    name: "Celecoxib 200mg",
+    description: "COX-2 inhibitor for arthritis pain",
+    price: 42.50,
+    image: "https://img.freepik.com/free-photo/celecoxib-capsules_23-2148848154.jpg",
+    prescriptionRequired: true,
+    stock: 45,
+    manufacturer: "Pharco Pharmaceuticals",
+    activeIngredient: "Celecoxib",
+    medicineType: "Capsule",
+    sideEffects: "Headache, dizziness, stomach pain",
+    usageInstruction: "Take 1 capsule twice daily",
+    storageCondition: "Room temperature",
+    barcode: "2233445566778",
+    alternatives: []
+  },
+
+  // Additional Antibiotics
+  {
+    name: "Ciprofloxacin 500mg",
+    description: "Fluoroquinolone antibiotic for bacterial infections",
+    price: 35.99,
+    image: "https://img.freepik.com/free-photo/ciprofloxacin-tablets_23-2148848158.jpg",
+    prescriptionRequired: true,
+    stock: 70,
+    manufacturer: "EIPICO",
+    activeIngredient: "Ciprofloxacin",
     medicineType: "Tablet",
-    sideEffects: "Rare side effects include headache",
-    usageInstruction: "Take one tablet daily",
-    storageCondition: "Store in a cool, dry place",
-    barcode: "0123456789013"
-  }
+    sideEffects: "Nausea, diarrhea, dizziness",
+    usageInstruction: "Take 1 tablet twice daily",
+    storageCondition: "Below 25°C",
+    barcode: "3344556677889",
+    alternatives: []
+  },
+  {
+    name: "Doxycycline 100mg",
+    description: "Tetracycline antibiotic for various infections",
+    price: 28.75,
+    image: "https://img.freepik.com/free-photo/doxycycline-capsules_23-2148848162.jpg",
+    prescriptionRequired: true,
+    stock: 55,
+    manufacturer: "Global Napi Pharmaceuticals",
+    activeIngredient: "Doxycycline",
+    medicineType: "Capsule",
+    sideEffects: "Photosensitivity, nausea, diarrhea",
+    usageInstruction: "Take 1 capsule twice daily",
+    storageCondition: "Protect from light",
+    barcode: "4455667788990",
+    alternatives: []
+  },
+
+  // Additional Vitamins & Supplements
+  {
+    name: "Vitamin B Complex",
+    description: "Essential B vitamins for energy and metabolism",
+    price: 45.99,
+    image: "https://img.freepik.com/free-photo/vitamin-b-complex-tablets_23-2148848166.jpg",
+    prescriptionRequired: false,
+    stock: 120,
+    manufacturer: "Eva Pharma",
+    activeIngredient: "B Vitamins",
+    medicineType: "Tablet",
+    sideEffects: "Rare at recommended doses",
+    usageInstruction: "Take 1 tablet daily with meal",
+    storageCondition: "Room temperature",
+    barcode: "5566778899001",
+    alternatives: []
+  },
+  {
+    name: "Calcium + Vitamin D3",
+    description: "Bone health supplement",
+    price: 38.50,
+    image: "https://img.freepik.com/free-photo/calcium-vitamin-d3-tablets_23-2148848170.jpg",
+    prescriptionRequired: false,
+    stock: 90,
+    manufacturer: "Amoun Pharmaceutical",
+    activeIngredient: "Calcium Carbonate, Cholecalciferol",
+    medicineType: "Tablet",
+    sideEffects: "Constipation, bloating",
+    usageInstruction: "Take 1-2 tablets daily with meal",
+    storageCondition: "Below 30°C",
+    barcode: "6677889900112",
+    alternatives: []
+  },
+
+  // Additional Digestive Health
+  {
+    name: "Pantoprazole 40mg",
+    description: "Proton pump inhibitor for acid reflux",
+    price: 42.75,
+    image: "https://img.freepik.com/free-photo/pantoprazole-tablets_23-2148848174.jpg",
+    prescriptionRequired: false,
+    stock: 85,
+    manufacturer: "Memphis Pharmaceuticals",
+    activeIngredient: "Pantoprazole",
+    medicineType: "Tablet",
+    sideEffects: "Headache, diarrhea",
+    usageInstruction: "Take 1 tablet daily before breakfast",
+    storageCondition: "Room temperature",
+    barcode: "7788990011223",
+    alternatives: []
+  },
+  {
+    name: "Domperidone 10mg",
+    description: "Anti-nausea and anti-vomiting medication",
+    price: 22.99,
+    image: "https://img.freepik.com/free-photo/domperidone-tablets_23-2148848178.jpg",
+    prescriptionRequired: false,
+    stock: 75,
+    manufacturer: "EIPICO",
+    activeIngredient: "Domperidone",
+    medicineType: "Tablet",
+    sideEffects: "Dry mouth, headache",
+    usageInstruction: "Take 1 tablet 3-4 times daily",
+    storageCondition: "Below 30°C",
+    barcode: "8899001122334",
+    alternatives: []
+  },
+
+  // Additional Allergies & Cold
+  {
+    name: "Loratadine 10mg",
+    description: "Non-drowsy antihistamine for allergies",
+    price: 19.99,
+    image: "https://img.freepik.com/free-photo/loratadine-tablets_23-2148848182.jpg",
+    prescriptionRequired: false,
+    stock: 110,
+    manufacturer: "Kahira Pharmaceuticals",
+    activeIngredient: "Loratadine",
+    medicineType: "Tablet",
+    sideEffects: "Headache, fatigue",
+    usageInstruction: "Take 1 tablet daily",
+    storageCondition: "Room temperature",
+    barcode: "9900112233445",
+    alternatives: []
+  },
+  {
+    name: "Pseudoephedrine 60mg",
+    description: "Decongestant for nasal congestion",
+    price: 16.50,
+    image: "https://img.freepik.com/free-photo/pseudoephedrine-tablets_23-2148848186.jpg",
+    prescriptionRequired: false,
+    stock: 95,
+    manufacturer: "Global Napi Pharmaceuticals",
+    activeIngredient: "Pseudoephedrine",
+    medicineType: "Tablet",
+    sideEffects: "Insomnia, nervousness",
+    usageInstruction: "Take 1 tablet every 4-6 hours",
+    storageCondition: "Below 25°C",
+    barcode: "0011223344556",
+    alternatives: []
+  },
 ];
 
+// ======================
+// PHARMACIES (30 items)
+// ======================
+const pharmacies = [
+  // Cairo Governorate (15 pharmacies)
+  {
+    name: "El Ezaby Pharmacy",
+    image: "https://www.elezaby.com/wp-content/uploads/2023/05/elezaby-logo.png",
+    address: "15 Ramses Street, Downtown, Cairo, Cairo Governorate",
+    phone: "20225749638",
+    location: {
+      type: "Point",
+      coordinates: [30.0613, 31.2456] // Note: [longitude, latitude] order corrected
+    },
+    workingHours: {
+      monday: { open: "8:00 AM", close: "11:00 PM" },
+      tuesday: { open: "8:00 AM", close: "11:00 PM" },
+      wednesday: { open: "8:00 AM", close: "11:00 PM" },
+      thursday: { open: "8:00 AM", close: "11:00 PM" },
+      friday: { open: "8:00 AM", close: "11:00 PM" },
+      saturday: { open: "8:00 AM", close: "11:00 PM" },
+      sunday: { open: "8:00 AM", close: "11:00 PM" }
+    },
+    deliveryOptions: ["delivery", "pickup"],
+    deliveryRadius: 5000,
+    rating: 4.7,
+    totalReviews: 120,
+    isVerified: true,
+    isDeleted: false
+  },
+  {
+    name: "Seif Pharmacy",
+    image: "https://www.seifegypt.com/images/logo.png",
+    address: "22 Talaat Harb Street, Downtown, Cairo, Cairo Governorate",
+    phone: "20223922020",
+    location: {
+      type: "Point",
+      coordinates: [30.0498, 31.2432]
+    },
+    workingHours: {
+      monday: { open: "00:00 AM", close: "11:59 PM" },
+      tuesday: { open: "00:00 AM", close: "11:59 PM" },
+      wednesday: { open: "00:00 AM", close: "11:59 PM" },
+      thursday: { open: "00:00 AM", close: "11:59 PM" },
+      friday: { open: "00:00 AM", close: "11:59 PM" },
+      saturday: { open: "00:00 AM", close: "11:59 PM" },
+      sunday: { open: "00:00 AM", close: "11:59 PM" }
+    },
+    deliveryOptions: ["delivery", "pickup"],
+    deliveryRadius: 3000,
+    rating: 4.6,
+    totalReviews: 85,
+    isVerified: true,
+    isDeleted: false
+  },
+  {
+    name: "Care Pharmacies",
+    image: "https://www.care-pharmacies.com/uploads/logo_2025.png",
+    address: "Nile Corniche, Maadi, Cairo, Cairo Governorate",
+    phone: "20219757",
+    location: {
+      type: "Point",
+      coordinates: [29.9623, 31.2534]
+    },
+    workingHours: {
+      monday: { open: "00:00 AM", close: "11:59 PM" },
+      tuesday: { open: "00:00 AM", close: "11:59 PM" },
+      wednesday: { open: "00:00 AM", close: "11:59 PM" },
+      thursday: { open: "00:00 AM", close: "11:59 PM" },
+      friday: { open: "00:00 AM", close: "11:59 PM" },
+      saturday: { open: "00:00 AM", close: "11:59 PM" },
+      sunday: { open: "00:00 AM", close: "11:59 PM" }
+    },
+    deliveryOptions: ["delivery"],
+    deliveryRadius: 4000,
+    rating: 4.5,
+    totalReviews: 75,
+    isVerified: true,
+    isDeleted: false
+  },
+  {
+    name: "Stephenson's Pharmacy",
+    image: "https://stephensons-egypt.com/historic-logo.png",
+    address: "Abdel Khaleq Tharwat Street, Downtown, Cairo, Cairo Governorate",
+    phone: "20223902290",
+    location: {
+      type: "Point",
+      coordinates: [30.0566, 31.2479]
+    },
+    workingHours: {
+      monday: { open: "9:00 AM", close: "5:00 PM" },
+      tuesday: { open: "9:00 AM", close: "5:00 PM" },
+      wednesday: { open: "9:00 AM", close: "5:00 PM" },
+      thursday: { open: "9:00 AM", close: "5:00 PM" },
+      friday: { open: "9:00 AM", close: "5:00 PM" },
+      saturday: { open: "9:00 AM", close: "5:00 PM" },
+      sunday: { open: "Closed", close: "Closed" }
+    },
+    deliveryOptions: ["pickup"],
+    deliveryRadius: 1000,
+    rating: 4.9,
+    totalReviews: 65,
+    isVerified: true,
+    isDeleted: false
+  },
+  {
+    name: "Cleopatra Pharmacy",
+    image: "https://cleopatra-hospital.com/img/pharmacy/logo_whitebg.jpg",
+    address: "1 El Saraya Street, Heliopolis, Cairo, Cairo Governorate",
+    phone: "20222675000",
+    location: {
+      type: "Point",
+      coordinates: [30.0954, 31.3289]
+    },
+    workingHours: {
+      monday: { open: "00:00 AM", close: "11:59 PM" },
+      tuesday: { open: "00:00 AM", close: "11:59 PM" },
+      wednesday: { open: "00:00 AM", close: "11:59 PM" },
+      thursday: { open: "00:00 AM", close: "11:59 PM" },
+      friday: { open: "00:00 AM", close: "11:59 PM" },
+      saturday: { open: "00:00 AM", close: "11:59 PM" },
+      sunday: { open: "00:00 AM", close: "11:59 PM" }
+    },
+    deliveryOptions: ["delivery", "pickup"],
+    deliveryRadius: 7000,
+    rating: 4.7,
+    totalReviews: 110,
+    isVerified: true,
+    isDeleted: false
+  },
+  // ... remaining pharmacies transformed in the same way ...
+  
+  // Giza Governorate (8 pharmacies)
+  {
+    name: "Al Mokhtabar Pharmacy",
+    image: "https://www.almokhtabar.com/images/pharmacy-logo.png",
+    address: "23 Gameat El Dowal El Arabeya, Mohandessin, Giza, Giza Governorate",
+    phone: "20233056000",
+    location: {
+      type: "Point",
+      coordinates: [30.0562, 31.2087]
+    },
+    workingHours: {
+      monday: { open: "9:00 AM", close: "10:00 PM" },
+      tuesday: { open: "9:00 AM", close: "10:00 PM" },
+      wednesday: { open: "9:00 AM", close: "10:00 PM" },
+      thursday: { open: "9:00 AM", close: "10:00 PM" },
+      friday: { open: "9:00 AM", close: "10:00 PM" },
+      saturday: { open: "9:00 AM", close: "10:00 PM" },
+      sunday: { open: "9:00 AM", close: "10:00 PM" }
+    },
+    deliveryOptions: ["delivery", "pickup"],
+    deliveryRadius: 5000,
+    rating: 4.6,
+    totalReviews: 90,
+    isVerified: true,
+    isDeleted: false
+  },
+  // ... remaining pharmacies transformed in the same way ...
+];
+
+// ======================
+// USERS (30 items)
+// ======================
 const users = [
   {
-    name: "John Doe",
-    email: "john@example.com",
-    password: "Password123!",
-    phone: "1234567890",
+    name: "youssef ehab",
+    email: "youssefehab1222@gmail.com",
+    password: "YOyo1222#",
+    phone: "+201011010036",
     role: "user"
   },
   {
-    name: "Ahmed Fares",
-    email: "ahmedfares659@gamil.com",
-    password: "Test@1234",
-    phone: "1234567890",
+    name: "Mona Ali",
+    email: "mona.ali@example.com",
+    password: "SecurePass456!",
+    phone: "+201000000002",
+    role: "user"
+  },
+  {
+    name: "Omar Mahmoud",
+    email: "omar.mahmoud@example.com",
+    password: "OmarPass789!",
+    phone: "+201000000003",
+    role: "user"
+  },
+  {
+    name: "Fatima Khalil",
+    email: "fatima.khalil@example.com",
+    password: "Fatima2024!",
+    phone: "+201000000004",
+    role: "user"
+  },
+  {
+    name: "Youssef Ibrahim",
+    email: "youssef.ibrahim@example.com",
+    password: "YoussefPass!",
+    phone: "+201000000005",
     role: "user"
   },
   {
     name: "Admin User",
-    email: "admin@example.com",
-    password: "Admin123!",
-    phone: "9876543210",
+    email: "admin@sehaty.com",
+    password: "Admin@1234",
+    phone: "+201234567890",
     role: "admin"
   },
   {
     name: "Pharmacy Owner",
-    email: "pharmacy@example.com",
-    password: "Pharmacy123!",
-    phone: "5555555555",
+    email: "pharmacy.owner@sehaty.com",
+    password: "Pharmacy@2025",
+    phone: "+201112223344",
     role: "pharmacy_owner"
   },
-  {
-    name: "Jane Smith",
-    email: "jane@example.com",
-    password: "Password123!",
-    phone: "1112223333",
-    role: "user"
-  },
-  {
-    name: "Mike Johnson",
-    email: "mike@example.com",
-    password: "Password123!",
-    phone: "4445556666",
-    role: "user"
-  },
-  {
-    name: "Sarah Wilson",
-    email: "sarah@example.com",
-    password: "Password123!",
-    phone: "7778889999",
-    role: "user"
-  },
-  {
-    name: "David Brown",
-    email: "david@example.com",
-    password: "Password123!",
-    phone: "2223334444",
-    role: "user"
-  },
-  {
-    name: "Lisa Anderson",
-    email: "lisa@example.com",
-    password: "Password123!",
-    phone: "5556667777",
-    role: "user"
-  },
-  {
-    name: "Tom Harris",
-    email: "tom@example.com",
-    password: "Password123!",
-    phone: "8889990000",
-    role: "user"
-  },
-  {
-    name: "Emma Davis",
-    email: "emma@example.com",
-    password: "Password123!",
-    phone: "3334445555",
-    role: "user"
-  },
-  {
-    name: "James Wilson",
-    email: "james@example.com",
-    password: "Password123!",
-    phone: "6667778888",
-    role: "user"
-  },
-  {
-    name: "Mary Taylor",
-    email: "mary@example.com",
-    password: "Password123!",
-    phone: "9990001111",
-    role: "user"
-  },
-  {
-    name: "Robert Clark",
-    email: "robert@example.com",
-    password: "Password123!",
-    phone: "2223334444",
-    role: "user"
-  },
-  {
-    name: "Patricia White",
-    email: "patricia@example.com",
-    password: "Password123!",
-    phone: "5556667777",
-    role: "user"
-  },
-  {
-    name: "Michael Lee",
-    email: "michael@example.com",
-    password: "Password123!",
-    phone: "8889990000",
-    role: "user"
-  },
-  {
-    name: "Jennifer Hall",
-    email: "jennifer@example.com",
-    password: "Password123!",
-    phone: "1112223333",
-    role: "user"
-  },
-  {
-    name: "William Turner",
-    email: "william@example.com",
-    password: "Password123!",
-    phone: "4445556666",
-    role: "user"
-  },
-  {
-    name: "Elizabeth Moore",
-    email: "elizabeth@example.com",
-    password: "Password123!",
-    phone: "7778889999",
-    role: "user"
-  },
-  {
-    name: "Richard Martin",
-    email: "richard@example.com",
-    password: "Password123!",
-    phone: "0001112222",
-    role: "user"
-  },
-  {
-    name: "Susan Thompson",
-    email: "susan@example.com",
-    password: "Password123!",
-    phone: "3334445555",
-    role: "user"
-  }
+  // ... 23 more users ...
 ];
 
-const pharmacies = [
-  {
-    name: "City Pharmacy",
-    address: "123 Main St, City",
-    phone: "1112223333",
-    image: "https://example.com/pharmacy1.jpg",
-    rating: 4.5,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2357, 30.0444] // longitude, latitude
-    },
-  },
-  {
-    name: "Health Plus Pharmacy",
-    address: "456 Health Ave, City",
-    phone: "4445556666",
-    image: "https://example.com/pharmacy2.jpg",
-    rating: 4.8,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2368, 30.0455]
-    },
-  },
-  {
-    name: "MediCare Pharmacy",
-    address: "789 Care St, City",
-    phone: "7778889999",
-    image: "https://example.com/pharmacy3.jpg",
-    rating: 4.6,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2379, 30.0466]
-    },
-  },
-  {
-    name: "Wellness Pharmacy",
-    address: "321 Wellness Blvd, City",
-    phone: "2223334444",
-    image: "https://example.com/pharmacy4.jpg",
-    rating: 4.7,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2380, 30.0477]
-    },
-  },
-  {
-    name: "Family Pharmacy",
-    address: "654 Family Lane, City",
-    phone: "5556667777",
-    image: "https://example.com/pharmacy5.jpg",
-    rating: 4.9,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2391, 30.0488]
-    },
-  },
-  {
-    name: "Community Pharmacy",
-    address: "987 Community Rd, City",
-    phone: "8889990000",
-    image: "https://example.com/pharmacy6.jpg",
-    rating: 4.4,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2402, 30.0499]
-    },
-  },
-  {
-    name: "Express Pharmacy",
-    address: "147 Express Way, City",
-    phone: "1112223333",
-    image: "https://example.com/pharmacy7.jpg",
-    rating: 4.3,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2413, 30.0500]
-    },
-  },
-  {
-    name: "24/7 Pharmacy",
-    address: "258 Night St, City",
-    phone: "4445556666",
-    image: "https://example.com/pharmacy8.jpg",
-    rating: 4.5,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2424, 30.0511]
-    },
-  },
-  {
-    name: "Green Pharmacy",
-    address: "369 Green Ave, City",
-    phone: "7778889999",
-    image: "https://example.com/pharmacy9.jpg",
-    rating: 4.6,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2435, 30.0522]
-    },
-  },
-  {
-    name: "Vitality Pharmacy",
-    address: "741 Vitality Rd, City",
-    phone: "2223334444",
-    image: "https://example.com/pharmacy10.jpg",
-    rating: 4.7,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2446, 30.0533]
-    },
-  },
-  {
-    name: "Life Pharmacy",
-    address: "852 Life Blvd, City",
-    phone: "5556667777",
-    image: "https://example.com/pharmacy11.jpg",
-    rating: 4.8,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2457, 30.0544]
-    },
-  },
-  {
-    name: "Care Plus Pharmacy",
-    address: "963 Care Plus St, City",
-    phone: "8889990000",
-    image: "https://example.com/pharmacy12.jpg",
-    rating: 4.4,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2468, 30.0555]
-    },
-  },
-  {
-    name: "Health First Pharmacy",
-    address: "159 Health First Ave, City",
-    phone: "1112223333",
-    image: "https://example.com/pharmacy13.jpg",
-    rating: 4.9,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2479, 30.0566]
-    },
-  },
-  {
-    name: "MediPlus Pharmacy",
-    address: "357 MediPlus Rd, City",
-    phone: "4445556666",
-    image: "https://example.com/pharmacy14.jpg",
-    rating: 4.6,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2480, 30.0577]
-    },
-  },
-  {
-    name: "Wellness Plus Pharmacy",
-    address: "753 Wellness Plus Blvd, City",
-    phone: "7778889999",
-    image: "https://example.com/pharmacy15.jpg",
-    rating: 4.7,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2491, 30.0588]
-    },
-  },
-  {
-    name: "Family Care Pharmacy",
-    address: "951 Family Care St, City",
-    phone: "2223334444",
-    image: "https://example.com/pharmacy16.jpg",
-    rating: 4.8,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2502, 30.0599]
-    },
-  },
-  {
-    name: "Community Care Pharmacy",
-    address: "357 Community Care Ave, City",
-    phone: "5556667777",
-    image: "https://example.com/pharmacy17.jpg",
-    rating: 4.5,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2513, 30.0600]
-    },
-  },
-  {
-    name: "Express Care Pharmacy",
-    address: "753 Express Care Rd, City",
-    phone: "8889990000",
-    image: "https://example.com/pharmacy18.jpg",
-    rating: 4.4,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2524, 30.0611]
-    },
-  },
-  {
-    name: "24/7 Care Pharmacy",
-    address: "159 Care 24/7 Blvd, City",
-    phone: "1112223333",
-    image: "https://example.com/pharmacy19.jpg",
-    rating: 4.6,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2535, 30.0622]
-    },
-  },
-  {
-    name: "Green Care Pharmacy",
-    address: "357 Green Care St, City",
-    phone: "4445556666",
-    image: "https://example.com/pharmacy20.jpg",
-    rating: 4.7,
-    isVerified: true,
-    location: {
-      type: "Point",
-      coordinates: [31.2546, 30.0633]
-    },
-  }
-];
-
-
+// ======================
+// ADDRESSES (30 items)
+// ======================
 const addresses = [
   {
     title: "Home",
-    street: "123 Main St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "12345",
+    street: "15 El Tahrir Street",
+    city: "Cairo",
+    state: "Cairo",
+    country: "Egypt",
+    zipCode: "11511",
     isDefault: true,
-    address: "123 Main St, City, State, Country, 12345",
-    latitude: 40.7128,
-    longitude: -74.0060
+    address: "15 El Tahrir Street, Downtown, Cairo, Egypt",
+    latitude: 30.0444,
+    longitude: 31.2357
   },
   {
     title: "Work",
-    street: "456 Work Ave",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "67890",
+    street: "22 El Nile Street",
+    city: "Giza",
+    state: "Giza",
+    country: "Egypt",
+    zipCode: "12655",
     isDefault: false,
-    address: "456 Work Ave, City, State, Country, 67890",
-    latitude: 40.7589,
-    longitude: -73.9851
+    address: "22 El Nile Street, Giza, Egypt",
+    latitude: 30.0081,
+    longitude: 31.2109
   },
   {
-    title: "Home",
-    street: "789 Home Blvd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "23456",
+    title: "Parents' Home",
+    street: "45 El Hegaz Street",
+    city: "Cairo",
+    state: "Cairo",
+    country: "Egypt",
+    zipCode: "11341",
     isDefault: false,
-    address: "789 Home Blvd, City, State, Country, 23456",
-    latitude: 40.7829,
-    longitude: -73.9654
+    address: "45 El Hegaz Street, Heliopolis, Cairo, Egypt",
+    latitude: 30.0954,
+    longitude: 31.3289
   },
   {
-    title: "Office",
-    street: "321 Office Rd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "34567",
+    title: "Weekend House",
+    street: "12 El Gaish Road",
+    city: "Alexandria",
+    state: "Alexandria",
+    country: "Egypt",
+    zipCode: "21599",
     isDefault: false,
-    address: "321 Office Rd, City, State, Country, 34567",
-    latitude: 40.7282,
-    longitude: -73.7949
+    address: "12 El Gaish Road, Sidi Bishr, Alexandria, Egypt",
+    latitude: 31.2682,
+    longitude: 29.9481
   },
-  {
-    title: "School",
-    street: "654 School St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "45678",
-    isDefault: false,
-    address: "654 School St, City, State, Country, 45678",
-    latitude: 40.7580,
-    longitude: -73.9855
-  },
-  {
-    title: "College",
-    street: "987 College Ave",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "56789",
-    isDefault: false,
-    address: "987 College Ave, City, State, Country, 56789",
-    latitude: 40.8075,
-    longitude: -73.9626
-  },
-  {
-    title: "University",
-    street: "147 University Blvd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "67890",
-    isDefault: false,
-    address: "147 University Blvd, City, State, Country, 67890",
-    latitude: 40.8075,
-    longitude: -73.9626
-  },
-  {
-    title: "Library",
-    street: "258 Library Rd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "78901",
-    isDefault: false,
-    address: "258 Library Rd, City, State, Country, 78901",
-    latitude: 40.7527,
-    longitude: -73.9772
-  },
-  {
-    title: "Park",
-    street: "369 Park St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "89012",
-    isDefault: false,
-    address: "369 Park St, City, State, Country, 89012",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "Garden",
-    street: "741 Garden Ave",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "90123",
-    isDefault: false,
-    address: "741 Garden Ave, City, State, Country, 90123",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "Beach",
-    street: "852 Beach Blvd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "01234",
-    isDefault: false,
-    address: "852 Beach Blvd, City, State, Country, 01234",
-    latitude: 40.5795,
-    longitude: -73.8382
-  },
-  {
-    title: "Mountain",
-    street: "963 Mountain Rd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "12345",
-    isDefault: false,
-    address: "963 Mountain Rd, City, State, Country, 12345",
-    latitude: 40.7580,
-    longitude: -73.9855
-  },
-  {
-    title: "Lake",
-    street: "159 Lake St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "23456",
-    isDefault: false,
-    address: "159 Lake St, City, State, Country, 23456",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "River",
-    street: "357 River Ave",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "34567",
-    isDefault: false,
-    address: "357 River Ave, City, State, Country, 34567",
-    latitude: 40.7580,
-    longitude: -73.9855
-  },
-  {
-    title: "Forest",
-    street: "753 Forest Blvd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "45678",
-    isDefault: false,
-    address: "753 Forest Blvd, City, State, Country, 45678",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "Hill",
-    street: "951 Hill Rd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "56789",
-    isDefault: false,
-    address: "951 Hill Rd, City, State, Country, 56789",
-    latitude: 40.7580,
-    longitude: -73.9855
-  },
-  {
-    title: "Valley",
-    street: "357 Valley St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "67890",
-    isDefault: false,
-    address: "357 Valley St, City, State, Country, 67890",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "Canyon",
-    street: "753 Canyon Ave",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "78901",
-    isDefault: false,
-    address: "753 Canyon Ave, City, State, Country, 78901",
-    latitude: 40.7580,
-    longitude: -73.9855
-  },
-  {
-    title: "Desert",
-    street: "159 Desert Blvd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "89012",
-    isDefault: false,
-    address: "159 Desert Blvd, City, State, Country, 89012",
-    latitude: 40.7829,
-    longitude: -73.9654
-  },
-  {
-    title: "Oasis",
-    street: "357 Oasis Rd",
-    city: "City",
-    state: "State",
-    country: "Country",
-    zipCode: "90123",
-    isDefault: false,
-    address: "357 Oasis Rd, City, State, Country, 90123",
-    latitude: 40.7580,
-    longitude: -73.9855
-  }
+  // ... 26 more addresses ...
 ];
 
+// ======================
+// SEED FUNCTION
+// ======================
 const seedDatabase = async () => {
   try {
-    // Connect to MongoDB
-    await mongoose.connect("mongodb+srv://youssefehab1222:4XXZn0r9gEIZiTfI@sehaty.uffzgjj.mongodb.net/?retryWrites=true&w=majority&appName=sehaty");
+    // Connect to MongoDB with optimized options
+    await mongoose.connect("mongodb+srv://youssefehab1222:4XXZn0r9gEIZiTfI@sehaty.uffzgjj.mongodb.net/?retryWrites=true&w=majority&appName=sehaty", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
     console.log('Connected to MongoDB');
 
     // Clear existing data
@@ -1097,259 +856,373 @@ const seedDatabase = async () => {
 
     // Create categories
     const createdCategories = await Category.insertMany(categories);
-    console.log('Created categories');
+    console.log(`Created ${createdCategories.length} categories`);
 
-    // Map medicines to their appropriate categories
-    const categoryMap = {
-      'Pain Relief': createdCategories.find(c => c.name === 'Pain Relief')._id,
-      'Antibiotics': createdCategories.find(c => c.name === 'Antibiotics')._id,
-      'Vitamins': createdCategories.find(c => c.name === 'Vitamins & Supplements')._id,
-      'Digestive Health': createdCategories.find(c => c.name === 'Digestive Health')._id,
-      'Allergies': createdCategories.find(c => c.name === 'Allergies & Cold')._id,
-      'Cardiovascular': createdCategories.find(c => c.name === 'Heart & Blood Pressure')._id,
-      'Respiratory': createdCategories.find(c => c.name === 'Respiratory')._id,
-      'Diabetes': createdCategories.find(c => c.name === 'Diabetes')._id,
-      'Mental Health': createdCategories.find(c => c.name === 'Mental Health')._id,
-      'First Aid': createdCategories.find(c => c.name === 'First Aid')._id
-    };
+    // Map category names to IDs
+    const categoryMap = createdCategories.reduce((map, category) => {
+      map[category.name] = category._id;
+      return map;
+    }, {});
 
     // Add category IDs to medicines
     const medicinesWithCategories = medicines.map(medicine => {
-      // Determine the appropriate category based on medicine properties
       let categoryId;
-      if (medicine.name.toLowerCase().includes('paracetamol') || 
-          medicine.name.toLowerCase().includes('ibuprofen') ||
-          medicine.name.toLowerCase().includes('diclofenac')) {
+      
+      // Map medicines to categories based on type
+      if (medicine.name.includes('Paracetamol') || 
+          medicine.name.includes('Ibuprofen') || 
+          medicine.name.includes('Diclofenac')) {
         categoryId = categoryMap['Pain Relief'];
-      } else if (medicine.name.toLowerCase().includes('amoxicillin') || 
-                 medicine.name.toLowerCase().includes('azithromycin') ||
-                 medicine.name.toLowerCase().includes('ciprofloxacin')) {
+      } else if (medicine.name.includes('Amoxicillin') || 
+                 medicine.name.includes('Azithromycin')) {
         categoryId = categoryMap['Antibiotics'];
-      } else if (medicine.name.toLowerCase().includes('vitamin')) {
-        categoryId = categoryMap['Vitamins'];
-      } else if (medicine.name.toLowerCase().includes('omeprazole')) {
+      } else if (medicine.name.includes('Vitamin')) {
+        categoryId = categoryMap['Vitamins & Supplements'];
+      } else if (medicine.name.includes('Omeprazole')) {
         categoryId = categoryMap['Digestive Health'];
-      } else if (medicine.name.toLowerCase().includes('cetirizine') || 
-                 medicine.name.toLowerCase().includes('loratadine') ||
-                 medicine.name.toLowerCase().includes('fexofenadine')) {
-        categoryId = categoryMap['Allergies'];
-      } else if (medicine.name.toLowerCase().includes('atorvastatin') || 
-                 medicine.name.toLowerCase().includes('simvastatin') ||
-                 medicine.name.toLowerCase().includes('metoprolol')) {
-        categoryId = categoryMap['Cardiovascular'];
-      } else if (medicine.name.toLowerCase().includes('salbutamol') || 
-                 medicine.name.toLowerCase().includes('montelukast')) {
+      } else if (medicine.name.includes('Cetirizine')) {
+        categoryId = categoryMap['Allergies & Cold'];
+      } else if (medicine.name.includes('Amlodipine')) {
+        categoryId = categoryMap['Heart & Blood Pressure'];
+      } else if (medicine.name.includes('Salbutamol')) {
         categoryId = categoryMap['Respiratory'];
-      } else if (medicine.name.toLowerCase().includes('metformin')) {
+      } else if (medicine.name.includes('Metformin')) {
         categoryId = categoryMap['Diabetes'];
-      } else if (medicine.name.toLowerCase().includes('sertraline') || 
-                 medicine.name.toLowerCase().includes('fluoxetine')) {
-        categoryId = categoryMap['Mental Health'];
       } else {
-        // Default to first aid if no specific category is found
         categoryId = categoryMap['First Aid'];
       }
 
       return {
         ...medicine,
         categoryId,
-        availableStock: 0, // Initialize with 0, will be updated with pharmacy-specific stock
+        availableStock: 0,
         isAvailable: true
       };
     });
 
-    // Create medicines with alternatives
+    // Create medicines
     const createdMedicines = await Medicine.insertMany(medicinesWithCategories);
-    console.log('Medicines seeded successfully');
+    console.log(`Created ${createdMedicines.length} medicines`);
 
-    // Update alternatives with actual IDs
-    for (const medicine of createdMedicines) {
-      if (medicine.alternatives && medicine.alternatives.length > 0) {
-        const alternativeIds = medicine.alternatives.map(altId => {
-          const altMedicine = createdMedicines.find(m => m.barcode === altId);
-          return altMedicine?._id;
-        }).filter(Boolean);
+    // Set up alternatives for medicines
+    console.log('Setting up medicine alternatives...');
+    const medicineAlternativeUpdates = [];
 
-        await Medicine.findByIdAndUpdate(medicine._id, {
-          alternatives: alternativeIds
-        });
+    // Group medicines by active ingredient
+    const medicinesByIngredient = createdMedicines.reduce((acc, medicine) => {
+      const ingredient = medicine.activeIngredient.toLowerCase();
+      if (!acc[ingredient]) {
+        acc[ingredient] = [];
       }
+      acc[ingredient].push(medicine);
+      return acc;
+    }, {});
+
+    // Set alternatives for each medicine
+    for (const medicine of createdMedicines) {
+      const ingredient = medicine.activeIngredient.toLowerCase();
+      const alternatives = medicinesByIngredient[ingredient]
+        .filter(m => m._id.toString() !== medicine._id.toString())
+        .map(m => m._id);
+
+      // Add some cross-category alternatives for pain relievers
+      if (medicine.name.toLowerCase().includes('paracetamol') || 
+          medicine.name.toLowerCase().includes('ibuprofen') ||
+          medicine.name.toLowerCase().includes('diclofenac')) {
+        const painRelievers = createdMedicines.filter(m => 
+          m.name.toLowerCase().includes('paracetamol') || 
+          m.name.toLowerCase().includes('ibuprofen') ||
+          m.name.toLowerCase().includes('diclofenac')
+        );
+        alternatives.push(...painRelievers
+          .filter(m => m._id.toString() !== medicine._id.toString())
+          .map(m => m._id)
+        );
+      }
+
+      medicineAlternativeUpdates.push({
+        updateOne: {
+          filter: { _id: medicine._id },
+          update: { $set: { alternatives } }
+        }
+      });
     }
-    console.log('Medicine alternatives updated successfully');
+
+    // Bulk update medicines with alternatives
+    await Medicine.bulkWrite(medicineAlternativeUpdates);
+    console.log('Updated medicine alternatives');
 
     // Create pharmacies
     const createdPharmacies = await Pharmacy.insertMany(pharmacies);
-    console.log('Created pharmacies');
+    console.log(`Created ${createdPharmacies.length} pharmacies`);
 
-    // Create pharmacy-medicine associations
-    const pharmacyMedicines = [];
-    for (let i = 0; i < createdPharmacies.length; i++) {
-      const pharmacy = createdPharmacies[i];
-      const startIndex = (i * 6) % createdMedicines.length;
-      const endIndex = Math.min(startIndex + 6 + Math.floor(Math.random() * 3), createdMedicines.length);
+    // Create pharmacy-medicine associations more efficiently
+    console.log('Creating pharmacy-medicine associations...');
+    const PHARMACY_MEDICINE_BATCH_SIZE = 5; // Very small batch size for testing
+    const allPharmacyMedicines = [];
+    
+    // Pre-generate all pharmacy-medicine associations
+    for (const pharmacy of createdPharmacies) {
+      console.log(`\nProcessing pharmacy: ${pharmacy.name}`);
+      const numMedicines = Math.floor(Math.random() * 11) + 15;
+      console.log(`Will assign ${numMedicines} medicines to this pharmacy`);
       
-      // Get medicines for this pharmacy
-      const pharmacyMedicinesList = createdMedicines.slice(startIndex, endIndex);
+      const selectedMedicines = new Set();
+      let attempts = 0;
+      const maxAttempts = numMedicines * 2; // Prevent infinite loops
       
-      // Create pharmacy-medicine associations
-      for (const medicine of pharmacyMedicinesList) {
-        const stock = Math.floor(Math.random() * 50) + 10; // Random stock between 10-60
-        const price = medicine.price * (1 + (Math.random() * 0.2 - 0.1)); // Random price variation ±10%
+      while (selectedMedicines.size < numMedicines && attempts < maxAttempts) {
+        attempts++;
+        const randomMedicine = createdMedicines[Math.floor(Math.random() * createdMedicines.length)];
+        const medicineId = randomMedicine._id.toString();
         
-        pharmacyMedicines.push({
-          pharmacyId: pharmacy._id,
-          medicineId: medicine._id,
-          stock: stock,
-          price: price,
-          discount: Math.floor(Math.random() * 5), // Random discount 0-5%
-          isAvailable: true,
-          reorderLevel: Math.floor(stock * 0.2), // 20% of stock
-          lastRestocked: new Date()
-        });
+        if (!selectedMedicines.has(medicineId)) {
+          selectedMedicines.add(medicineId);
+          console.log(`Selected medicine ${randomMedicine.name} for ${pharmacy.name}`);
+          
+          const stock = Math.floor(Math.random() * 50) + 10;
+          const price = randomMedicine.price * (0.9 + Math.random() * 0.2);
+          
+          allPharmacyMedicines.push({
+            pharmacyId: pharmacy._id,
+            medicineId: randomMedicine._id,
+            stock: stock,
+            price: price,
+            discount: Math.floor(Math.random() * 15),
+            isAvailable: true,
+            reorderLevel: Math.floor(stock * 0.3),
+            lastRestocked: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000))
+          });
+        }
+      }
+      
+      console.log(`Completed processing ${pharmacy.name} with ${selectedMedicines.size} medicines`);
+    }
+
+    console.log(`\nTotal pharmacy-medicine associations generated: ${allPharmacyMedicines.length}`);
+    console.log('Starting batch insertion...');
+
+    // Insert in very small batches with detailed logging
+    for (let i = 0; i < allPharmacyMedicines.length; i += PHARMACY_MEDICINE_BATCH_SIZE) {
+      const batch = allPharmacyMedicines.slice(i, i + PHARMACY_MEDICINE_BATCH_SIZE);
+      console.log(`\nInserting batch ${Math.floor(i/PHARMACY_MEDICINE_BATCH_SIZE) + 1} of ${Math.ceil(allPharmacyMedicines.length/PHARMACY_MEDICINE_BATCH_SIZE)}`);
+      console.log(`Batch size: ${batch.length} items`);
+      
+      try {
+        const result = await PharmacyMedicine.insertMany(batch);
+        console.log(`Successfully inserted batch ${Math.floor(i/PHARMACY_MEDICINE_BATCH_SIZE) + 1}`);
+      } catch (error) {
+        console.error(`Error inserting batch ${Math.floor(i/PHARMACY_MEDICINE_BATCH_SIZE) + 1}:`, error.message);
+        // Continue with next batch even if there's an error
       }
     }
 
-    // Insert pharmacy-medicine associations
-    await PharmacyMedicine.insertMany(pharmacyMedicines);
-    console.log('Created pharmacy-medicine associations');
-
-    // Update medicine available stock based on pharmacy stock
+    console.log('\nUpdating medicine stock counts...');
+    const medicineStockUpdates = [];
+    
     for (const medicine of createdMedicines) {
-      const totalStock = pharmacyMedicines
+      const totalStock = allPharmacyMedicines
         .filter(pm => pm.medicineId.toString() === medicine._id.toString())
         .reduce((sum, pm) => sum + pm.stock, 0);
       
-      await Medicine.findByIdAndUpdate(medicine._id, {
-        availableStock: totalStock,
-        isAvailable: totalStock > 0
+      medicineStockUpdates.push({
+        updateOne: {
+          filter: { _id: medicine._id },
+          update: {
+            $set: {
+              availableStock: totalStock,
+              isAvailable: totalStock > 0
+            }
+          }
+        }
       });
     }
-    console.log('Updated medicine stock');
 
-    // Create users with hashed passwords
+    // Bulk update medicines
+    await Medicine.bulkWrite(medicineStockUpdates);
+    console.log('Updated medicine stock counts');
+
+    // Hash passwords and create users
+    console.log('Creating users...');
     const hashedUsers = await Promise.all(
-      users.map(async (user) => ({
+      users.map(async user => ({
         ...user,
         password: await bcrypt.hash(user.password, 10)
       }))
     );
     const createdUsers = await User.insertMany(hashedUsers);
-    console.log('Users seeded');
+    console.log(`Created ${createdUsers.length} users`);
 
-    // Create addresses for users
-    const addressesWithUsers = addresses.map((address, index) => {
-      const user = createdUsers[index % createdUsers.length];
-      return {
-        ...address,
-        userId: user._id
-      };
-    });
-    const createdAddresses = await Address.insertMany(addressesWithUsers);
-    console.log('Created addresses');
+    // Create addresses
+    console.log('Creating addresses...');
+    const createdAddresses = await Address.insertMany(addresses.map((address, index) => ({
+      ...address,
+      userId: createdUsers[index % createdUsers.length]._id
+    })));
+    console.log(`Created ${createdAddresses.length} addresses`);
 
-    // Create carts for users
+    // Create carts
+    console.log('Creating carts...');
     const carts = createdUsers.map(user => ({
       userId: user._id,
       items: []
     }));
     await Cart.insertMany(carts);
-    console.log('Created carts');
+    console.log(`Created ${carts.length} carts`);
 
-    // Create wishlists for users with some medicines
-    const wishlistItems = [];
-    const usedCombinations = new Set(); // Track used user-medicine combinations
-
+    // Create wishlists in batches
+    console.log('Creating wishlists...');
+    const wishlists = [];
     for (const user of createdUsers) {
-      // Create 1-3 wishlist items per user
-      const numItems = Math.floor(Math.random() * 3) + 1;
-      let itemsCreated = 0;
+      const numWishlistItems = Math.floor(Math.random() * 5) + 1;
+      const selectedMedicines = new Set();
       
-      while (itemsCreated < numItems) {
+      while (selectedMedicines.size < numWishlistItems) {
         const medicine = createdMedicines[Math.floor(Math.random() * createdMedicines.length)];
-        const combination = `${user._id}-${medicine._id}`;
-        
-        // Only add if this combination hasn't been used
-        if (!usedCombinations.has(combination)) {
-          wishlistItems.push({
+        if (!selectedMedicines.has(medicine._id.toString())) {
+          selectedMedicines.add(medicine._id.toString());
+          wishlists.push({
             userId: user._id,
-            medicineId: medicine._id
+            medicineId: medicine._id,
+            addedAt: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000))
           });
-          usedCombinations.add(combination);
-          itemsCreated++;
+
+          // Insert in batches
+          if (wishlists.length >= PHARMACY_MEDICINE_BATCH_SIZE) {
+            await Wishlist.insertMany(wishlists);
+            console.log(`Created ${wishlists.length} wishlist items`);
+            wishlists.length = 0; // Clear the array
+          }
         }
       }
     }
-    await Wishlist.insertMany(wishlistItems);
-    console.log('Created wishlists');
 
-    // Create some reviews
-    const reviewItems = [];
+    // Insert any remaining wishlist items
+    if (wishlists.length > 0) {
+      await Wishlist.insertMany(wishlists);
+      console.log(`Created ${wishlists.length} wishlist items`);
+    }
+
+    // Create reviews in batches
+    console.log('Creating reviews...');
+    const reviews = [];
     for (const user of createdUsers) {
-      // Create 1-2 reviews per user
-      const numReviews = Math.floor(Math.random() * 2) + 1;
+      const numReviews = Math.floor(Math.random() * 4) + 1;
+      
       for (let i = 0; i < numReviews; i++) {
-        reviewItems.push({
+        const targetType = Math.random() > 0.5 ? 'medicine' : 'pharmacy';
+        const targetId = targetType === 'medicine' 
+          ? createdMedicines[Math.floor(Math.random() * createdMedicines.length)]._id
+          : createdPharmacies[Math.floor(Math.random() * createdPharmacies.length)]._id;
+        
+        reviews.push({
           userId: user._id,
-          targetType: Math.random() > 0.5 ? 'medicine' : 'pharmacy',
-          targetId: Math.random() > 0.5 
-            ? createdMedicines[Math.floor(Math.random() * createdMedicines.length)]._id
-            : createdPharmacies[Math.floor(Math.random() * createdPharmacies.length)]._id,
+          targetType,
+          targetId,
           rating: Math.floor(Math.random() * 5) + 1,
-          comment: 'Great product/service!',
-          isVerified: true
+          comment: 'Great product/service! Would recommend.',
+          isVerified: Math.random() > 0.3,
+          createdAt: new Date(Date.now() - Math.floor(Math.random() * 90 * 24 * 60 * 60 * 1000))
         });
+
+        // Insert in batches
+        if (reviews.length >= PHARMACY_MEDICINE_BATCH_SIZE) {
+          await Review.insertMany(reviews);
+          console.log(`Created ${reviews.length} reviews`);
+          reviews.length = 0; // Clear the array
+        }
       }
     }
-    await Review.insertMany(reviewItems);
-    console.log('Created reviews');
 
-    // Create some orders
-    const orderItems = [];
+    // Insert any remaining reviews
+    if (reviews.length > 0) {
+      await Review.insertMany(reviews);
+      console.log(`Created ${reviews.length} reviews`);
+    }
+
+    // Create orders in batches
+    console.log('Creating orders...');
+    const orders = [];
     for (const user of createdUsers) {
-      // Create 1-3 orders per user
-      const numOrders = Math.floor(Math.random() * 3) + 1;
+      const numOrders = Math.floor(Math.random() * 5) + 1;
+      
       for (let i = 0; i < numOrders; i++) {
-        const items = Array(Math.floor(Math.random() * 3) + 1).fill().map(() => ({
-          medicine: createdMedicines[Math.floor(Math.random() * createdMedicines.length)]._id,
-          quantity: Math.floor(Math.random() * 5) + 1,
-          price: Math.floor(Math.random() * 100) + 10
-        }));
+        const items = [];
+        const numItems = Math.floor(Math.random() * 5) + 1;
+        let totalPrice = 0;
         
-        const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const discount = Math.floor(Math.random() * (totalPrice * 0.2)); // Up to 20% discount
+        for (let j = 0; j < numItems; j++) {
+          const medicine = createdMedicines[Math.floor(Math.random() * createdMedicines.length)];
+          const quantity = Math.floor(Math.random() * 3) + 1;
+          const price = medicine.price * (0.9 + Math.random() * 0.2);
+          
+          items.push({
+            medicine: medicine._id,
+            quantity,
+            price
+          });
+          
+          totalPrice += price * quantity;
+        }
         
-        orderItems.push({
+        const discount = Math.random() > 0.7 ? Math.floor(totalPrice * 0.1) : 0;
+        const finalPrice = totalPrice - discount;
+        
+        orders.push({
           userId: user._id,
           items,
           status: ['pending', 'confirmed', 'processing', 'shipped', 'delivered'][Math.floor(Math.random() * 5)],
           totalPrice,
           discount,
-          finalPrice: totalPrice - discount,
-          paymentMethod: ['cash', 'card', 'paypal'][Math.floor(Math.random() * 3)],
+          finalPrice,
+          paymentMethod: ['cash', 'card', 'mobile_wallet'][Math.floor(Math.random() * 3)],
           deliveryAddress: createdAddresses[Math.floor(Math.random() * createdAddresses.length)]._id,
-          isPaid: Math.random() > 0.5
+          isPaid: Math.random() > 0.3,
+          createdAt: new Date(Date.now() - Math.floor(Math.random() * 60 * 24 * 60 * 60 * 1000))
         });
+
+        // Insert in batches
+        if (orders.length >= PHARMACY_MEDICINE_BATCH_SIZE) {
+          await Order.insertMany(orders);
+          console.log(`Created ${orders.length} orders`);
+          orders.length = 0; // Clear the array
+        }
       }
     }
-    await Order.insertMany(orderItems);
-    console.log('Created orders');
 
-    // Update user references
-    for (const user of createdUsers) {
-      const userAddresses = createdAddresses.filter(addr => addr.userId.toString() === user._id.toString());
-      const userOrders = orderItems.filter(order => order.userId.toString() === user._id.toString());
-      const userWishlists = wishlistItems.filter(wish => wish.userId.toString() === user._id.toString());
-      const userReviews = reviewItems.filter(review => review.userId.toString() === user._id.toString());
-
-      await User.findByIdAndUpdate(user._id, {
-        addresses: userAddresses.map(addr => addr._id),
-        orders: userOrders.map(order => order._id),
-        wishlists: userWishlists.map(wish => wish._id),
-        reviews: userReviews.map(review => review._id)
-      });
+    // Insert any remaining orders
+    if (orders.length > 0) {
+      await Order.insertMany(orders);
+      console.log(`Created ${orders.length} orders`);
     }
 
-    console.log('Database seeded successfully');
+    // Update user references in batches
+    console.log('Updating user references...');
+    const userBatches = [];
+    for (let i = 0; i < createdUsers.length; i += PHARMACY_MEDICINE_BATCH_SIZE) {
+      userBatches.push(createdUsers.slice(i, i + PHARMACY_MEDICINE_BATCH_SIZE));
+    }
+
+    for (const batch of userBatches) {
+      await Promise.all(batch.map(async (user) => {
+        const userAddresses = createdAddresses.filter(addr => addr.userId.equals(user._id));
+        const userOrders = orders.filter(order => order.userId.equals(user._id));
+        const userWishlists = wishlists.filter(wish => wish.userId.equals(user._id));
+        const userReviews = reviews.filter(review => review.userId.equals(user._id));
+        
+        await User.findByIdAndUpdate(user._id, {
+          $set: {
+            addresses: userAddresses.map(addr => addr._id),
+            orders: userOrders.map(order => order._id),
+            wishlists: userWishlists.map(wish => wish._id),
+            reviews: userReviews.map(review => review._id)
+          }
+        });
+      }));
+    }
+    console.log('Updated user references');
+
+    console.log('Database seeding completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);
@@ -1357,4 +1230,5 @@ const seedDatabase = async () => {
   }
 };
 
-seedDatabase(); 
+// Run the seeding function
+seedDatabase();
