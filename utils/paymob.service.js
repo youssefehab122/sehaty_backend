@@ -27,11 +27,17 @@ class PaymobService {
 
   async processCallback(payload) {
     try {
+      if (!payload || !payload.obj) {
+        throw new Error("Invalid payload format");
+      }
+
       const { obj } = payload;
       
-      // Validate HMAC first
-      if (!this.validateHMAC(obj.hmac, obj)) {
-        throw new Error("Invalid HMAC signature");
+      // Validate HMAC if provided
+      if (obj.hmac) {
+        if (!this.validateHMAC(obj.hmac, obj)) {
+          throw new Error("Invalid HMAC signature");
+        }
       }
 
       const order = await Order.findById(obj.merchant_order_id);
@@ -149,17 +155,35 @@ class PaymobService {
   }
 
   validateHMAC(hmac, obj) {
-    const entries = Object.entries(obj)
-      .filter(([k]) => !["hmac", "created_at", "is_3d_secure"].includes(k))
-      .sort(([a], [b]) => a.localeCompare(b));
+    try {
+      // Remove hmac from the object to calculate signature
+      const { hmac: _, ...dataToSign } = obj;
+      
+      // Sort keys alphabetically
+      const entries = Object.entries(dataToSign)
+        .filter(([k]) => !["created_at", "is_3d_secure"].includes(k))
+        .sort(([a], [b]) => a.localeCompare(b));
 
-    const concatenated = entries.map(([k, v]) => `${k}=${v}`).join("");
-    const calculatedHmac = crypto
-      .createHmac("sha512", this.hmacSecret)
-      .update(concatenated)
-      .digest("hex");
+      // Create concatenated string
+      const concatenated = entries.map(([k, v]) => `${k}=${v}`).join("");
+      
+      // Calculate HMAC
+      const calculatedHmac = crypto
+        .createHmac("sha512", this.hmacSecret)
+        .update(concatenated)
+        .digest("hex");
 
-    return hmac === calculatedHmac;
+      console.log("HMAC Validation:", {
+        received: hmac,
+        calculated: calculatedHmac,
+        data: concatenated
+      });
+
+      return hmac === calculatedHmac;
+    } catch (error) {
+      console.error("HMAC validation error:", error);
+      return false;
+    }
   }
 }
 

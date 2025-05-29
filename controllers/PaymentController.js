@@ -7,10 +7,10 @@ import PromoCode from "../models/PromoCodeModel.js";
 import PaymobService from "../utils/paymob.service.js";
 import {config} from '../config/config.js';
 
-// Enhanced callback handler
+// Handle transaction processed callback (POST)
 export const handlePaymobCallback = async (req, res) => {
   try {
-    console.log("Received Paymob callback:", req.body);
+    console.log("Received Paymob transaction processed callback:", req.body);
     
     const result = await PaymobService.processCallback(req.body);
     
@@ -50,22 +50,54 @@ export const handlePaymobCallback = async (req, res) => {
       );
       
       console.log(`Order ${order._id} payment completed successfully`);
-
-      // Redirect to the app using the stored return URL
-      if (order.paymob?.returnUrl) {
-        return res.redirect(order.paymob.returnUrl);
-      }
+      res.status(200).send("Callback processed successfully");
+    } else {
+      res.status(400).send("Payment failed");
     }
-    
-    // If no return URL or payment failed, redirect to a fallback URL
-    res.redirect(`${config.app.deepLinkScheme}://payment-complete/${result.orderId}`);
   } catch (error) {
     console.error("Callback processing failed:", error);
+    res.status(400).send("Error processing callback");
+  }
+};
+
+// Handle transaction response callback (GET)
+export const handlePaymobResponse = async (req, res) => {
+  try {
+    console.log("Received Paymob transaction response:", req.query);
+    
+    const { merchant_order_id, success, hmac } = req.query;
+    
+    if (!merchant_order_id) {
+      throw new Error("No order ID provided");
+    }
+
+    // Validate HMAC if provided
+    if (hmac) {
+      const isValid = await PaymobService.validateHMAC(hmac, req.query);
+      if (!isValid) {
+        throw new Error("Invalid HMAC signature");
+      }
+    }
+
+    const order = await Order.findById(merchant_order_id);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    // Redirect to the app using the stored return URL
+    if (order.paymob?.returnUrl) {
+      return res.redirect(order.paymob.returnUrl);
+    }
+
+    // Fallback redirect
+    res.redirect(`${config.app.deepLinkScheme}://payment-complete/${merchant_order_id}`);
+  } catch (error) {
+    console.error("Response handling failed:", error);
     // Even on error, try to redirect back to app
-    if (req.body?.merchant_order_id) {
-      res.redirect(`${config.app.deepLinkScheme}://payment-complete/${req.body.merchant_order_id}`);
+    if (req.query?.merchant_order_id) {
+      res.redirect(`${config.app.deepLinkScheme}://payment-complete/${req.query.merchant_order_id}`);
     } else {
-      res.status(400).send("Error processing callback");
+      res.status(400).send("Error processing response");
     }
   }
 };
