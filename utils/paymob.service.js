@@ -184,16 +184,44 @@ class PaymobService {
     }
   }
 
-  // Add specific method for redirection callback
   validateRedirectionHMAC(hmac, query) {
     try {
-      // Convert query object to entries and sort alphabetically
-      const entries = Object.entries(query)
-        .filter(([k]) => k !== 'hmac') // Remove hmac from calculation
-        .sort(([a], [b]) => a.localeCompare(b));
+      // Define the required keys in the correct order
+      const requiredKeys = [
+        'PLAINTEXT',
+        'amount_cents',
+        'created_at',
+        'currency',
+        'error_occured',
+        'has_parent_transaction',
+        'id',
+        'integration_id',
+        'is_3d_secure',
+        'is_auth',
+        'is_capture',
+        'is_refunded',
+        'is_standalone_payment',
+        'is_voided',
+        'order',
+        'owner',
+        'pending',
+        'source_data.pan',
+        'source_data.sub_type',
+        'source_data.type',
+        'success'
+      ];
 
-      // Create concatenated string
-      const concatenated = entries.map(([k, v]) => `${k}=${v}`).join('');
+      // Create concatenated string with values in the required order
+      const concatenated = requiredKeys
+        .map(key => {
+          if (key === 'PLAINTEXT') return 'PLAINTEXT';
+          if (key.includes('.')) {
+            const [parent, child] = key.split('.');
+            return query[parent]?.[child] || '';
+          }
+          return query[key] || '';
+        })
+        .join('');
 
       // Calculate HMAC
       const calculatedHmac = crypto

@@ -98,6 +98,26 @@ export const handlePaymobResponse = async (req, res) => {
         };
         order.status = "confirmed";
         await order.save();
+
+        // Update stock
+        for (const item of order.items) {
+          await PharmacyMedicine.findOneAndUpdate(
+            { medicineId: item.medicine, pharmacyId: item.pharmacyId },
+            { $inc: { stock: -item.quantity } }
+          );
+        }
+
+        // Create delivery record
+        await Delivery.create({
+          orderId: order._id,
+          status: "pending"
+        });
+
+        // Clear cart
+        await Cart.findOneAndUpdate(
+          { userId: order.userId },
+          { $set: { items: [] } }
+        );
       }
     }
 
