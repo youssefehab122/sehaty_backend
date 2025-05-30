@@ -30,6 +30,7 @@ import path from 'path';
 import MongoStore from 'connect-mongo';
 import uploadRoutes from './routes/uploadRoutes.js';
 import './scheduler/reminderScheduler.js';
+import fs from 'fs';
 dotenv.config();
 
 // Connect to MongoDB
@@ -46,77 +47,64 @@ const admin = new AdminJS(adminOptions);
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Basic middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
-app.use(compression());
-app.use(morgan('dev'));
-
-// Session middleware (MUST be before AdminJS)
-app.use(session({
-  secret: process.env.ADMIN_SESSION_SECRET || 'some-secret-password-used-to-secure-session',
-  resave: true,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    collectionName: 'sessions',
-  }),
-  cookie: {
-    httpOnly: false,
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    sameSite: 'lax'
-  },
-  name: 'adminjs',
-}));
-
-// Debug middleware
-app.use((req, res, next) => {
-  console.log('\n=== Request Debug ===');
-  console.log('Time:', new Date().toISOString());
-  console.log('Method:', req.method);
-  console.log('Path:', req.path);
-  console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
-  console.log('Session:', req.session);
-  console.log('Session ID:', req.sessionID);
-  console.log('===================\n');
-  next();
-});
-
+const __dirname = dirname(__filename);
 
 // Create uploads directory if it doesn't exist
-import fs from 'fs';
-const uploadsDir = path.join(__dirname, 'public/uploads');
+const uploadsDir = join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
+// Middleware
+app.use(helmet());
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// CORS configuration
+app.use(cors({
+  origin: ['http://localhost:19006', 'http://localhost:19000', 'http://localhost:19002', 'exp://localhost:19000', 'exp://10.0.2.2:19000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}));
+
+// Increase payload size limit for file uploads
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use('/uploads', express.static(join(__dirname, 'uploads')));
+
+// Debug middleware for development
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    console.log('\n=== Request Debug ===');
+    console.log('Time:', new Date().toISOString());
+    console.log('Method:', req.method);
+    console.log('Path:', req.path);
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+    console.log('Session:', req.session);
+    console.log('Session ID:', req.sessionID);
+    console.log('===================\n');
+    next();
+  });
+}
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/pharmacies', pharmacyRoutes);
-app.use('/api/prescriptions',prescriptionRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/reminders',reminderRoutes);
-app.use('/api/cart',cartRoutes);
-app.use('/api/wishlist',wishlistRoutes);
+app.use('/api/reminders', reminderRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/payment',paymentRoutes);
-app.use('/api/addresses',addressRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/addresses', addressRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // AdminJS routes
@@ -132,17 +120,17 @@ app.get('/health', (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: err.message,
-    error: process.env.NODE_ENV === 'development' ? err : undefined
+  console.error('Error:', err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal server error',
+    error: process.env.NODE_ENV === 'development' ? err : {}
   });
 });
 
 const PORT = process.env.PORT || 5050;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Uploads directory: ${uploadsDir}`);
   console.log(`AdminJS started on http://0.0.0.0:${PORT}/admin`);
 });
