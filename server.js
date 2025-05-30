@@ -142,7 +142,7 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5050;
 
-app.listen(PORT,"0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`AdminJS started on http://0.0.0.0:${PORT}/admin`);
 });

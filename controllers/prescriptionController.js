@@ -1,6 +1,7 @@
 import Prescription from '../models/PrescriptionModel.js';
 import Reminder from '../models/Reminder.js';
 import Medicine from '../models/MedicineModel.js';
+import Tesseract from 'tesseract.js';
 
 // Upload prescription
 export const uploadPrescription = async (req, res) => {
@@ -18,6 +19,20 @@ export const uploadPrescription = async (req, res) => {
       mimetype: image.mimetype,
       size: image.size
     });
+
+    // OCR: Extract text from image
+    let ocrText = '';
+    try {
+      const ocrResult = await Tesseract.recognize(
+        image.path,
+        'eng+ara', // English and Arabic
+        { logger: m => console.log(m) }
+      );
+      ocrText = ocrResult.data.text;
+    } catch (ocrError) {
+      console.error('OCR error:', ocrError);
+      ocrText = '';
+    }
 
     // Parse medicines if it's a string
     let parsedMedicines = [];
@@ -39,6 +54,7 @@ export const uploadPrescription = async (req, res) => {
       title,
       prescriptionText,
       validUntil,
+      ocrText,
       image: {
         secure_url: `/uploads/prescriptions/${image.filename}`,
         public_id: image.filename

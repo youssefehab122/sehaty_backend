@@ -44,6 +44,9 @@ const prescriptionSchema = new Schema(
     prescriptionText: {
       type: String,
     },
+    ocrText: {
+      type: String,
+    },
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
